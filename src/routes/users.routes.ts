@@ -44,7 +44,8 @@ usersRouter.patch(
         avatarFilename: request.file.filename,
       });
 
-
+      // @ts-expect-error
+      delete user.password;
 
       return response.json(user);
     } catch (err) {
