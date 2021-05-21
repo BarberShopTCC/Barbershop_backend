@@ -1,41 +1,47 @@
-import { hash } from 'bcryptjs';
-import { injectable, inject } from 'tsyringe';
-
 import AppError from '@shared/errors/AppError';
-import IUsersRepository from '../repositories/IUsersRepository';
 
-import User from '../infra/typeorm/entities/User';
+import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
+import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
+import CreateUserService from './CreateUserService';
 
-interface IRequest {
-  name: string;
-  email: string;
-  password: string;
-}
+describe('CreateUser', () => {
+  it('should be able to create a new User', async () => {
+    const fakeUsersRepository = new FakeUsersRepository();
+    const fakeHashProvider = new FakeHashProvider();
+    const createUser = new CreateUserService(
+      fakeUsersRepository,
+      fakeHashProvider,
+    );
 
-@injectable()
-class CreateUserService {
-  constructor(
-    @inject('UsersRepository')
-    private usersRepository: IUsersRepository,
-  ) {}
-
-  public async execute({ name, email, password }: IRequest): Promise<User> {
-    const checkUserExists = await this.usersRepository.findByEmail(email);
-
-    if (checkUserExists) {
-      throw new AppError('Email address already used.');
-    }
-
-    const hashedPassword = await hash(password, 8);
-
-    const user = await this.usersRepository.create({
-      name,
-      email,
-      password: hashedPassword,
+    const user = await createUser.execute({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: 'abc@123',
     });
 
-    return user;
-  }
-}
+    expect(user).toHaveProperty('id');
+  });
 
-export default CreateUserService;
+  it('should not be able to create a new User with same email from another', async () => {
+    const fakeUsersRepository = new FakeUsersRepository();
+    const fakeHashProvider = new FakeHashProvider();
+    const createUser = new CreateUserService(
+      fakeUsersRepository,
+      fakeHashProvider,
+    );
+
+    await createUser.execute({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: 'abc@123',
+    });
+
+    expect(
+      createUser.execute({
+        name: 'John Doe',
+        email: 'johndoe@example.com',
+        password: 'abc@123',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+});
