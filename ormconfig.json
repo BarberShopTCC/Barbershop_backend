@@ -1,0 +1,33 @@
+[
+  {
+    "name": "default",
+    "type": "postgres",
+    "host": "ec2-23-23-133-10.compute-1.amazonaws.com",
+    "port": 5432,
+    "username": "myhbicjkcoyciq",
+    "password": "0fe36d32ae64745a4cb0a214fd898fc9ef700e1b220594c29c3e914a7aa45633",
+    "database": "d63kntavgel2n9",
+    "ssl": { 
+      "rejectUnauthorized": false 
+    },
+    "entities": [
+      "dist/modules/**/infra/typeorm/entities/*.js"
+    ],
+    "migrations": [
+      "dist/shared/infra/typeorm/migrations/*.js"
+    ],
+    "cli": {
+      "migrationsDir": "./src/shared/infra/typeorm/migrations"
+    }
+  },
+
+  {
+    "name": "mongo",
+    "type": "mongodb",
+    "url": "mongodb+srv://dbUser:mongodb@barbershopmongo.ahit1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "useUnifiedTopology": true,
+    "entities": [
+      "./dist/modules/**/infra/typeorm/schemas/*.js"
+    ]
+  }
+]
