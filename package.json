@@ -13,7 +13,7 @@
     "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
     "start": "ts-node -r tsconfig-paths/register src/shared/infra/http/server.ts",
     "start1": "ts-node src/shared/infra/http/server.ts",
-    "start2": "node dist/shared/infra/http/server.js",
+    "start2": "node -r tsconfig-paths/register dist/shared/infra/http/server.js",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "test": "jest"
   },
