@@ -6,5 +6,6 @@ temp/
 .env
 ormconfig.json
 
-tmp/*
-!tmp/.gitkeep
+tmp/uploads/*
+!tmp/uploads/.gitkeep
+!tmp/uploads/avatar-default.svg
