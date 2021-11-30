@@ -4,7 +4,7 @@ import { injectable, inject } from "tsyringe";
 import IMailProvider from "../models/IMailProvider";
 import ISendMailDTO from "../dtos/ISendMailDTO";
 
-import IMailTemplateProvider from "../../../shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider";
+import IMailTemplateProvider from "../../../../../shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider";
 
 @injectable()
 export default class EtherealMailProvider implements IMailProvider {
