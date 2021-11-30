@@ -1,20 +1,20 @@
-import nodemailer, { Transporter } from 'nodemailer';
-import { injectable, inject } from 'tsyringe';
+import nodemailer, { Transporter } from "nodemailer";
+import { injectable, inject } from "tsyringe";
 
-import IMailProvider from '../models/IMailProvider';
-import ISendMailDTO from '../dtos/ISendMailDTO';
+import IMailProvider from "../models/IMailProvider";
+import ISendMailDTO from "../dtos/ISendMailDTO";
 
-import IMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider';
+import IMailTemplateProvider from "../../../shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider";
 
 @injectable()
 export default class EtherealMailProvider implements IMailProvider {
   private client: Transporter;
 
   constructor(
-    @inject('MailTemplateProvider')
-    private mailTemplateProvider: IMailTemplateProvider,
+    @inject("MailTemplateProvider")
+    private mailTemplateProvider: IMailTemplateProvider
   ) {
-    nodemailer.createTestAccount().then(account => {
+    nodemailer.createTestAccount().then((account) => {
       const transporter = nodemailer.createTransport({
         host: account.smtp.host,
         port: account.smtp.port,
@@ -37,8 +37,8 @@ export default class EtherealMailProvider implements IMailProvider {
   }: ISendMailDTO): Promise<void> {
     const message = await this.client.sendMail({
       from: {
-        name: from?.name || 'Equipe Barbershop',
-        address: from?.email || 'equipe@barbershop.com.br',
+        name: from?.name || "Equipe Barbershop",
+        address: from?.email || "equipe@barbershop.com.br",
       },
       to: {
         name: to.name,
@@ -48,7 +48,7 @@ export default class EtherealMailProvider implements IMailProvider {
       html: await this.mailTemplateProvider.parse(templateData),
     });
 
-    console.log('Message sent: %s', message.messageId);
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(message));
+    console.log("Message sent: %s", message.messageId);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(message));
   }
 }

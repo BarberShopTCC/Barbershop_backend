@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import { container } from 'tsyringe';
+import { Request, Response } from "express";
+import { container } from "tsyringe";
 
-import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService';
-import { classToClass } from 'class-transformer';
+import CreateAppointmentService from "../../../../../modules/appointments/services/CreateAppointmentService";
+import { classToClass } from "class-transformer";
 
 export default class AppointmentController {
   public async create(request: Request, response: Response): Promise<Response> {

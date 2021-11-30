@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-import { container } from 'tsyringe';
+import { Request, Response } from "express";
+import { container } from "tsyringe";
 
-import ListProviderAppointmentsService from '@modules/appointments/services/ListProviderAppointmentsService';
+import ListProviderAppointmentsService from "../../../../../modules/appointments/services/ListProviderAppointmentsService";
 
 export default class ProviderAppointmentsController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -9,7 +9,7 @@ export default class ProviderAppointmentsController {
     const { day, month, year } = request.query;
 
     const listProviderAppointments = container.resolve(
-      ListProviderAppointmentsService,
+      ListProviderAppointmentsService
     );
 
     const appointments = await listProviderAppointments.execute({
